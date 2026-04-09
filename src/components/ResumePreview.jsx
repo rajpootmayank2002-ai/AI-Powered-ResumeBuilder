@@ -4,22 +4,40 @@ import { useResume } from '../context/ResumeContext';
 const ResumePreview = ({ id }) => {
   const { resumeData } = useResume();
   const themeColor = resumeData.themeColor || '#000000';
+  const [scale, setScale] = React.useState(0.48);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 380) setScale(0.35);
+      else if (window.innerWidth < 640) setScale(0.4);
+      else if (window.innerWidth < 1024) setScale(0.45);
+      else setScale(0.48);
+    };
+    handleResize(); // Init
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   
   return (
     <div className="glass-card sticky top-6 shadow-2xl h-[95vh] w-full flex flex-col items-center p-4 bg-gray-50/50 overflow-y-auto overflow-x-hidden pt-8">
       
+      {/* Wrapper to contain the physical size of the scaled child */}
       <div 
-        id={id} 
-        className="bg-white mx-auto shadow-sm text-black"
-        style={{
-          width: '210mm',
-          height: '297mm',
-          transform: 'scale(min(0.48, 0.48))',
-          transformOrigin: 'top center',
-          padding: '20mm',
-          fontFamily: '"Times New Roman", Times, serif'
-        }}
+        className="relative mx-auto flex justify-center"
+        style={{ width: `${210 * scale}mm`, height: `${297 * scale}mm` }}
       >
+        <div 
+          id={id} 
+          className="bg-white shadow-sm text-black absolute top-0"
+          style={{
+            width: '210mm',
+            height: '297mm',
+            transform: `scale(${scale})`,
+            transformOrigin: 'top center',
+            padding: '20mm',
+            fontFamily: '"Times New Roman", Times, serif'
+          }}
+        >
         {/* Header - Personal Info */}
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold uppercase tracking-widest mb-1.5 text-black">
@@ -210,7 +228,7 @@ const ResumePreview = ({ id }) => {
         )}
 
         {/* Achievements */}
-        {resumeData.achievements && (
+         {resumeData.achievements && (
           <div className="mb-4">
              <h2 className="text-[14px] font-bold uppercase text-black tracking-wide mb-1">
                Achievements
@@ -239,7 +257,7 @@ const ResumePreview = ({ id }) => {
              </div>
           </div>
         )}
-
+        </div>
       </div>
     </div>
   );

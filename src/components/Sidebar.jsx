@@ -2,13 +2,23 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, FileText, Settings, User } from 'lucide-react';
 
-const Sidebar = () => {
+const Sidebar = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const menuItems = [
     { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
   ];
 
   return (
-    <div className="hidden sm:flex flex-col w-64 h-screen fixed top-0 left-0 bg-white border-r border-gray-200">
+    <>
+      {/* Mobile overlay */}
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 sm:hidden"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+      
+      {/* Sidebar container */}
+      <div className={`fixed top-0 left-0 h-screen w-64 bg-white border-r border-gray-200 z-50 transition-transform transform ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} sm:translate-x-0`}>
       <div className="h-16 flex items-center px-6 border-b border-gray-200">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-brand flex items-center justify-center">
@@ -50,6 +60,7 @@ const Sidebar = () => {
         </p>
       </div>
     </div>
+    </>
   );
 };
 

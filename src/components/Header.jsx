@@ -5,7 +5,7 @@ import { logoutUser } from '../services/firebase';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
-const Header = () => {
+const Header = ({ setMobileMenuOpen }) => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
 
@@ -20,9 +20,12 @@ const Header = () => {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-8 shrink-0 relative z-10">
+    <header className="h-16 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-4 sm:px-8 shrink-0 relative z-10">
       <div className="flex items-center sm:hidden">
-        <button className="p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg">
+        <button 
+          onClick={() => setMobileMenuOpen(true)}
+          className="p-2 -ml-2 text-gray-500 hover:bg-gray-100 rounded-lg"
+        >
           <Menu className="w-6 h-6" />
         </button>
       </div>
