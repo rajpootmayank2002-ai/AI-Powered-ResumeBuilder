@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 font-sans antialiased;
+  }
+}
+
+.glass-card {
+  @apply bg-white shadow-xl shadow-gray-200/50 rounded-2xl border border-gray-100;
+}
+
+.step-active {
+  @apply bg-brand text-white;
+}
+
+.step-inactive {
+  @apply bg-gray-100 text-gray-400;
+}
